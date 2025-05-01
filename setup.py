@@ -6,7 +6,7 @@ setup(
     name='taxmistri',
     version='0.1',
     description='Simplifying Indian Taxes with Python',
-    author='YourName',
+    author='Debjit Karmakar',
     author_email='karmadebjit@gmail.com',
     packages=find_packages(),
     install_requires=[],

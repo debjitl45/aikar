@@ -1,4 +1,4 @@
-from income_tax import IncomeTaxCalculator
+from taxmistri import IncomeTaxCalculator
 
 calc = IncomeTaxCalculator(
     income=1400000,
