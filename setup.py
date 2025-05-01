@@ -7,7 +7,7 @@ setup(
     version='0.1',
     description='Simplifying Indian Taxes with Python',
     author='YourName',
-    author_email='your.email@example.com',
+    author_email='karmadebjit@gmail.com',
     packages=find_packages(),
     install_requires=[],
     keywords=['tax', 'india', 'income tax', 'capital gains', 'python'],
