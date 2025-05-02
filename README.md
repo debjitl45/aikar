@@ -3,6 +3,8 @@
 "Aikar" the name is derived from hindi word "आयकर" which translates to income tax.
 Aikar is a Python library provides functions helps in Tax calculations using Python. 
 
+I feel taxes is one of the most important finance but it's not easy to understand
+
 ### Income Tax Slabs for FY 2024-25 (AY 2025-26)
 
 #### New Regime (Post Budget 2025)
