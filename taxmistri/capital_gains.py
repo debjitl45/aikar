@@ -1,31 +1,63 @@
 # taxmistri/capital_gains.py
+from datetime import datetime
+
 
 class CapitalGainsCalculator:
-    def __init__(self, asset_type, gain_amount, holding_period_days):
-        self.asset_type = asset_type.lower()
+    def __init__(self, asset_type, gain_amount, bought_on_date, sold_on_date):
+        self.asset_type = asset_type.strip().lower()
         self.gain_amount = gain_amount
-        self.holding_period_days = holding_period_days
+        self.holding_period_days = (
+                    datetime.strptime(sold_on_date, "%d/%m/%Y").date() - datetime.strptime(bought_on_date,
+                                                                                           "%d/%m/%Y").date()).days
 
     def _is_long_term(self):
-        if self.asset_type == 'equity':
+        if self.asset_type == 'equity' or self.asset_type == 'gold etf':
             return self.holding_period_days > 365
-        elif self.asset_type == 'debt' or self.asset_type == 'gold':
-            return self.holding_period_days > 1095
+        elif self.asset_type == 'debt' or self.asset_type == 'gold' or self.asset_type == 'real estate':
+            return self.holding_period_days > 730
         else:
             return False
 
     def calculate(self):
         is_long_term = self._is_long_term()
 
-        if self.asset_type == 'equity':
+        if self.asset_type == 'equity' or self.asset_type == 'gold etf':
             if is_long_term:
-                exempt = 100000
+                exempt = 125000
                 taxable = max(0, self.gain_amount - exempt)
-                return taxable * 0.10
+                return {
+                        "Asset Type": self.asset_type,
+                        "Gain Amount": self.gain_amount,
+                        "Exempt Amount": exempt,
+                        "Taxable Amount": taxable,
+                        "Tax Rate": 0.125,
+                        "Tax Payable": taxable * 0.125
+                    }
             else:
-                return self.gain_amount * 0.15
+                return {
+                        "Asset Type": self.asset_type,
+                        "Gain Amount": self.gain_amount,
+                        "Exempt Amount": None,
+                        "Taxable Amount": self.gain_amount,
+                        "Tax Rate": 0.20,
+                        "Tax Payable": self.gain_amount * 0.20
+                    }
         else:
             if is_long_term:
-                return self.gain_amount * 0.20
+                return {
+                    "Asset Type": self.asset_type,
+                    "Gain Amount": self.gain_amount,
+                    "Indexation Benefit": None,
+                    "Taxable Amount": self.gain_amount,
+                    "Tax Rate": 0.125,
+                    "Tax Payable": self.gain_amount * 0.125
+                }
             else:
-                return self.gain_amount * 0.30
+                return {
+                    "Asset Type": self.asset_type,
+                    "Gain Amount": self.gain_amount,
+                    "Indexation Benefit": None,
+                    "Taxable Amount": self.gain_amount,
+                    "Tax Rate": 0.20,
+                    "Tax Payable": self.gain_amount * 0.20
+                }
