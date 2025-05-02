@@ -1,6 +1,6 @@
 # Aikar
 
-TaxMistri simplifies Indian Tax calculations using Python.
+Aikar helps in Tax calculations using Python.
 
 ## Features
 
@@ -10,12 +10,12 @@ TaxMistri simplifies Indian Tax calculations using Python.
 ## Installation
 
 ```bash
-pip install taxmistri
+pip install aikar
 ```
 ## Usage
 ```python
 #import the library 
-from taxmistri import IncomeTaxCalculator
+from aikar import IncomeTaxCalculator
 #enter your income,age,regime and deductions under 80C,80CCD2,HRA,Interest paid for Home Loan
 income_tax = IncomeTaxCalculator(
     income=1400000,
