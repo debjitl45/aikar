@@ -3,7 +3,7 @@
 "Aikar" the name is derived from hindi word "आयकर" which translates to income tax.
 Aikar is a Python library provides functions helps in Tax calculations using Python. 
 
-I feel taxes is one of the most important finance but it's not easy to understand
+Indian Govt. collected 27 lakh crore in the form of direct taxes and 21 lakh crore in the form of GST. Tax is a significant finance concept but it's not easy to understand due to lot of nuances and it is quite easy to get confused which regime to choose, where can we invest to save taxes, which deductions are applicable, which ITR form should I use.
 
 ### Income Tax Slabs for FY 2024-25 (AY 2025-26)
 
