@@ -1,6 +1,7 @@
 # Aikar
 
-Aikar helps in Tax calculations using Python.
+"Aikar" the name is derived from hindi word "आयकर" which translates to income tax.
+Aikar is a Python library provides functions helps in Tax calculations using Python. 
 
 ## Features
 
