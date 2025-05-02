@@ -2,7 +2,7 @@ from taxmistri import IncomeTaxCalculator
 
 from taxmistri import CapitalGainsCalculator
 
-calc = CapitalGainsCalculator('equity', 125000, '3/1/2023', '3/2/2023')
+calc = CapitalGainsCalculator('gold', 125000, '3/1/2023', '3/2/2029')
 
 print(calc.calculate())
 
