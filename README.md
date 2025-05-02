@@ -5,7 +5,7 @@ Aikar is a Python library provides functions helps in Tax calculations using Pyt
 
 ### Income Tax Slabs for FY 2024-25 (AY 2025-26)
 
-#### 🔹 New Regime (Post Budget 2025)
+#### New Regime (Post Budget 2025)
 
 | Income Range                  | Tax Rate  |
 |------------------------------|-----------|
@@ -16,13 +16,13 @@ Aikar is a Python library provides functions helps in Tax calculations using Pyt
 | ₹16,00,001 – ₹20,00,000      | 20%       |
 | Above ₹20,00,000             | 30%       |
 
->  **Standard deduction of ₹50,000** available  
->  **No exemptions/deductions** (except NPS 80CCD(2), EPF, etc.)  
->  **Marginal relief** applies beyond ₹12.75L
+- **Standard deduction of ₹50,000** available  
+- **No exemptions/deductions** (except NPS 80CCD(2), EPF, etc.)  
+- **Marginal relief** applies beyond ₹12.75L
 
 ---
 
-#### 🔹 Old Regime
+#### Old Regime
 
 | Income Range                  | Tax Rate  |
 |------------------------------|-----------|
@@ -31,9 +31,9 @@ Aikar is a Python library provides functions helps in Tax calculations using Pyt
 | ₹5,00,001 – ₹10,00,000       | 20%       |
 | Above ₹10,00,000             | 30%       |
 
-> Multiple deductions allowed (80C, 80D, HRA, LTA, etc.)  
-> **Rebate under 87A** for income up to ₹5L  
-> **Surcharge & marginal relief** applies beyond ₹50L
+- Multiple deductions allowed (80C, 80D, HRA, LTA, etc.)  
+- **Rebate under 87A** for income up to ₹5L  
+- **Surcharge & marginal relief** applies beyond ₹50L
 
 
 ## Features
