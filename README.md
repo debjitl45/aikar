@@ -1,4 +1,4 @@
-# TaxMistri
+# Aikar
 
 TaxMistri simplifies Indian Tax calculations using Python.
 
