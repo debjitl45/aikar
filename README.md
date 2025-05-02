@@ -18,7 +18,7 @@ Indian Govt. collected 27 lakh crore in the form of direct taxes and 21 lakh cro
 | ₹16,00,001 – ₹20,00,000      | 20%       |
 | Above ₹20,00,000             | 30%       |
 
-- **Standard deduction of ₹50,000** available  
+- **Standard deduction of ₹75,000** available  
 - **No exemptions/deductions** (except NPS 80CCD(2), EPF, etc.)  
 - **Marginal relief** applies beyond ₹12.75L
 
