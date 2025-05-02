@@ -1,17 +1,17 @@
-from taxmistri import IncomeTaxCalculator
+from aikar import IncomeTaxCalculator
 
-from taxmistri import CapitalGainsCalculator
+from aikar import CapitalGainsCalculator
 
-calc = CapitalGainsCalculator('gold', 125000, '3/1/2023', '3/2/2029')
+capital_gains_tax = CapitalGainsCalculator('gold', 125000, '3/1/2023', '3/2/2029')
 
-print(calc.calculate())
+print(capital_gains_tax.calculate())
 
 
-calc = IncomeTaxCalculator(
+income_tax = IncomeTaxCalculator(
     income=1400000,
     age=29,
     regime='new',
     deductions={'80C': 0, 'HRA': 0, '80CCD2': 100000, 'Home Loan': 0}
 )
 
-print(calc.calculate())
+print(income_tax.calculate())

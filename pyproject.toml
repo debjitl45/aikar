@@ -3,9 +3,9 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "taxmistri"
-version = "0.1.2"
-description = "TaxMistri simplifies Indian Tax calculations using Python."
+name = "aikar"
+version = "0.1.0"
+description = "Aikar helps in Tax calculations using Python."
 readme = "README.md"
 requires-python = ">=3.7"
 license = { text = "MIT" }
@@ -15,4 +15,4 @@ authors = [
 dependencies = []
 
 [project.urls]
-Homepage = "https://github.com/debjitl45/Tax-Mistri"
+Homepage = "https://github.com/debjitl45/aikar"
