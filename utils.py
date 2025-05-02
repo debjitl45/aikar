@@ -8,10 +8,10 @@ print(capital_gains_tax.calculate())
 
 
 income_tax = IncomeTaxCalculator(
-    income=1400000,
+    income=1200000,
     age=29,
-    regime='new',
-    deductions={'80C': 0, 'HRA': 0, '80CCD2': 100000, 'Home Loan': 0}
+    regime='old',
+    deductions={'80C': 150000, 'HRA': 180000, '80CCD2': 0, 'Home Loan': 0}
 )
 
 print(income_tax.calculate())

@@ -8,20 +8,21 @@ class IncomeTaxCalculator:
         self.deductions = deductions
 
     def _apply_deductions(self, income):
-        total_deduction=0
-        if self.regime=='new':
-            taxable_income=self.income-75000
-            if '80CCD2' in self.deductions.keys():
-                total_deduction=self.deductions['80CCD2']
+        total_deduction = 0
+        if self.regime == 'new':
+            if '80CCD2' in self.deductions.keys():  #new regime considers only 80CCD2
+                total_deduction = self.deductions['80CCD2']
         else:
-            total_deduction = sum(self.deductions.values())
+            total_deduction = sum(self.deductions.values())  #old regime considers all deductions
         return max(0, self.income - total_deduction)
 
-    def _calculate_old_regime_tax(self, taxable_income):
+    def _calculate_old_regime_tax(self, income):
+        gross_income = self.income
+        taxable_income = self._apply_deductions(gross_income)-50000 #standard deduction of 50k
         tax = 0
         slabs = [
-            (250000, 0.05),
-            (500000, 0.1),
+            (250000, 0.0),
+            (500000, 0.05),
             (1000000, 0.2),
             (float('inf'), 0.3)
         ]
@@ -33,11 +34,19 @@ class IncomeTaxCalculator:
             else:
                 tax += (taxable_income - previous_limit) * rate
                 break
-        return tax
+        cess = tax * 0.04
+        total_tax = tax + cess
+        return {
+            "Gross Income": gross_income,
+            "Taxable Income": taxable_income,
+            "Base Tax": round(tax),
+            "Cess (4%)": round(cess),
+            "Total Tax Payable": round(total_tax)
+        }
 
     def _calculate_new_regime_tax(self, income):
-        gross_income=self.income
-        taxable_income= self._apply_deductions(gross_income) - 75000 #std deduction of 75k
+        gross_income = self.income
+        taxable_income = self._apply_deductions(gross_income) - 75000  #std deduction of 75k
         slabs = [
             (400000, 0.00),
             (800000, 0.05),
@@ -82,7 +91,7 @@ class IncomeTaxCalculator:
         if self.regime == 'new':
             taxable_income = max(0, self._apply_deductions(self.income))
         else:
-            taxable_income = self._apply_deductions()
+            taxable_income = self._apply_deductions(self.income)
 
         # Rebate under 87A for income up to ₹7L (new regime)
         if self.regime == 'new' and taxable_income <= 700000:
@@ -96,4 +105,3 @@ class IncomeTaxCalculator:
         else:
             gross_tax = self._calculate_new_regime_tax(taxable_income)
         return gross_tax
-
