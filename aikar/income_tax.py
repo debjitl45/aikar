@@ -1,16 +1,33 @@
 # taxmistri/income_tax.py
+from aikar.exceptions import AikarException
+
 
 class IncomeTaxCalculator:
-    def __init__(self, income, age=30, regime='new', deductions={}):
+    def __init__(self, income, age, regime, deductions):
         self.income = income
         self.age = age
-        self.regime = regime
+        self.regime = regime.lower()
         self.deductions = deductions
+        self.validation()
+
+    def validation(self):
+        if self.regime not in ['new', 'old']:
+            raise AikarException("Invalid regime. Please choose 'new' or 'old'.")
+        if self.age < 0 or self.age > 100:
+            raise AikarException("Invalid age. Age should be between 0 and 100.")
+        if self.income < 0:
+            raise AikarException("Income cannot be negative.")
+        for key, value in self.deductions.items():
+            if not isinstance(key, str):
+                raise AikarException(f"Deduction key '{key}' must be a string.")
+            if not isinstance(value, (int, float)) or value < 0:
+                raise AikarException(f"Deduction value for '{key}' must be a positive number.")
 
     def _apply_deductions(self, income):
+        self.validation()
         total_deduction = 0
         if self.regime == 'new':
-            if '80CCD2' in self.deductions.keys():  #new regime considers only 80CCD2
+            if '80CCD2' in self.deductions.keys() or 'corporate NPS' in self.deductions.keys() or 'employer NPS' in self.deductions.keys():  #new regime considers only 80CCD2/corporate NPS
                 total_deduction = self.deductions['80CCD2']
         else:
             total_deduction = sum(self.deductions.values())  #old regime considers all deductions
@@ -18,7 +35,7 @@ class IncomeTaxCalculator:
 
     def _calculate_old_regime_tax(self, income):
         gross_income = self.income
-        taxable_income = self._apply_deductions(gross_income)-50000 #standard deduction of 50k
+        taxable_income = self._apply_deductions(gross_income) - 50000  #standard deduction of 50k
         tax = 0
         slabs = [
             (250000, 0.0),
@@ -59,6 +76,8 @@ class IncomeTaxCalculator:
 
         tax = 0
         prev_limit = 0
+        rebate_flag = False
+        rebate = 0
 
         for limit, rate in slabs:
             if taxable_income > limit:
@@ -67,9 +86,13 @@ class IncomeTaxCalculator:
             else:
                 tax += (taxable_income - prev_limit) * rate
                 break
+        # Apply rebate if net taxable income is less than or equal to 1200000 and tax is less than or equal to 60000
+        if taxable_income <= 1200000 and tax <= 60000:
+            tax = 0
+            rebate_flag = True
 
-        # Apply marginal relief if applicable
-        if 1200000 < taxable_income <= 1275000:
+        # Apply marginal relief if net taxable income is between 1200000 and 1275000 which compensates the marginally excess income from the tax-free slab
+        if 1200000 < taxable_income <= 1275000 and rebate_flag == False:
             excess_income = taxable_income - 1200000
             if tax > excess_income:
                 tax = excess_income
@@ -81,9 +104,11 @@ class IncomeTaxCalculator:
         return {
             "Gross Income": gross_income,
             "Taxable Income": taxable_income,
-            "Base Tax": round(tax),
-            "Cess (4%)": round(cess),
-            "Total Tax Payable": round(total_tax)
+            "Tax Before Rebate": round(tax),
+            "Tax Rebate under 87A": round(rebate) if rebate_flag == True else 0,
+            "Tax After Rebate": 0 if rebate_flag == True else round(tax),
+            "Cess (4%)": 0 if rebate_flag == True else round(cess),
+            "Total Tax Payable": 0 if rebate_flag == True else round(total_tax)
         }
 
     def calculate(self):
@@ -92,14 +117,7 @@ class IncomeTaxCalculator:
             taxable_income = max(0, self._apply_deductions(self.income))
         else:
             taxable_income = self._apply_deductions(self.income)
-
-        # Rebate under 87A for income up to ₹7L (new regime)
-        if self.regime == 'new' and taxable_income <= 700000:
-            return 0
-
-        if self.regime == 'old' and taxable_income <= 500000:
-            return 0  # 87A rebate under old regime
-
+        # Calculate tax based on regime
         if self.regime == 'old':
             gross_tax = self._calculate_old_regime_tax(taxable_income)
         else:
