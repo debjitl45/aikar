@@ -15,7 +15,7 @@ from aikar import CapitalGainsCalculator
 # )
 
 try:
-    income_tax = IncomeTaxCalculator(income=1275001, age=30, deductions={"80CCD2": 0}, regime="new")
+    income_tax = IncomeTaxCalculator(income=1275001, age=300, deductions={"80CCD2": 0}, regime="barbie")
     print(income_tax.calculate())
 except Exception as e:
     print("Validation failed:", e)
