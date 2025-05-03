@@ -1,6 +1,8 @@
 # taxmistri/capital_gains.py
 from datetime import datetime
 
+from aikar.exceptions import AikarException
+
 
 class CapitalGainsCalculator:
     def __init__(self, asset_type, gain_amount, bought_on_date, sold_on_date):
@@ -9,7 +11,14 @@ class CapitalGainsCalculator:
         self.holding_period_days = (
                     datetime.strptime(sold_on_date, "%d/%m/%Y").date() - datetime.strptime(bought_on_date,
                                                                                            "%d/%m/%Y").date()).days
-
+        self.validation()
+    def validation(self):
+        if self.asset_type not in ['equity', 'debt', 'gold', 'gold etf', 'real estate']:
+            raise AikarException("Invalid asset type. Please choose from 'equity', 'debt', 'gold', 'gold etf', or 'real estate'.")
+        if self.gain_amount < 0:
+            raise AikarException("Capital Loss is not taxable.")
+        if self.holding_period_days < 0:
+            raise AikarException("Holding period cannot be negative.")
     def _is_long_term(self):
         if self.asset_type == 'equity' or self.asset_type == 'gold etf':
             return self.holding_period_days > 365
@@ -19,6 +28,7 @@ class CapitalGainsCalculator:
             return False
 
     def calculate(self):
+        self.validation()
         is_long_term = self._is_long_term()
 
         if self.asset_type == 'equity' or self.asset_type == 'gold etf':

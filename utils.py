@@ -2,9 +2,11 @@ from aikar import IncomeTaxCalculator
 
 from aikar import CapitalGainsCalculator
 
-#capital_gains_tax = CapitalGainsCalculator('gold', 125000, '3/1/2023', '3/2/2029')
-
-#print(capital_gains_tax.calculate())
+try:
+    capital_gains_tax = CapitalGainsCalculator('gold', -125000, '3/1/2023', '3/2/2029')
+    print(capital_gains_tax.calculate())
+except Exception as e:
+    print("Validation failed:", e)
 
 
 # income_tax = IncomeTaxCalculator(
@@ -15,7 +17,7 @@ from aikar import CapitalGainsCalculator
 # )
 
 try:
-    income_tax = IncomeTaxCalculator(income=1275001, age=300, deductions={"80CCD2": 0}, regime="barbie")
+    income_tax = IncomeTaxCalculator(income=1275001, age=30, deductions={"80CCD2": 0}, regime="new")
     print(income_tax.calculate())
 except Exception as e:
     print("Validation failed:", e)
