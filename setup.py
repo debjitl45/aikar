@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='aikar',
-    version='0.1.4',
+    version='0.1.5',
     description='Simplifying Indian Taxes with Python',
     author='Debjit Karmakar',
     author_email='karmadebjit@gmail.com',
