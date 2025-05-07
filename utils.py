@@ -1,17 +1,24 @@
-from taxmistri import IncomeTaxCalculator
+from aikar import IncomeTaxCalculator
 
-from taxmistri import CapitalGainsCalculator
+from aikar import CapitalGainsCalculator
 
-calc = CapitalGainsCalculator('gold', 125000, '3/1/2023', '3/2/2029')
+try:
+    capital_gains_tax = CapitalGainsCalculator('equity mutual fund', 125000, '3/1/2023', '3/2/2029')
+    print(capital_gains_tax.calculate())
+except Exception as e:
+    print("Validation failed:", e)
 
-print(calc.calculate())
 
+# income_tax = IncomeTaxCalculator(
+#     income=1200000,
+#     age=29,
+#     regime='oldnew',
+#     deductions={'80C': 150000, 'HRA': 180000, '80CCD2': 0, 'Home Loan': 0}
+# )
 
-calc = IncomeTaxCalculator(
-    income=1400000,
-    age=29,
-    regime='new',
-    deductions={'80C': 0, 'HRA': 0, '80CCD2': 100000, 'Home Loan': 0}
-)
+try:
+    income_tax = IncomeTaxCalculator(income=1275001, age=30, deductions={"80CCD2": 0}, regime="new")
+    print(income_tax.calculate())
+except Exception as e:
+    print("Validation failed:", e)
 
-print(calc.calculate())

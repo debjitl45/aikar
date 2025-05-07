@@ -1,0 +1,2 @@
+class AikarException(Exception):
+    pass
