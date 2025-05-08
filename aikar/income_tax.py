@@ -1,4 +1,5 @@
 # taxmistri/income_tax.py
+from aikar.deduction_validation_and_clubbing import classify_and_sanitize_deductions
 from aikar.exceptions import AikarException
 
 
@@ -7,7 +8,7 @@ class IncomeTaxCalculator:
         self.income = income
         self.age = age
         self.regime = regime.lower()
-        self.deductions = deductions
+        self.deductions = classify_and_sanitize_deductions(deductions)
         self.validation()
 
     def validation(self):
@@ -23,19 +24,19 @@ class IncomeTaxCalculator:
             if not isinstance(value, (int, float)) or value < 0:
                 raise AikarException(f"Deduction value for '{key}' must be a positive number.")
 
-    def _apply_deductions(self, income):
+    def _apply_deductions(self):
         self.validation()
         total_deduction = 0
         if self.regime == 'new':
-            if '80CCD2' in self.deductions.keys() or 'corporate NPS' in self.deductions.keys() or 'employer NPS' in self.deductions.keys():  #new regime considers only 80CCD2/corporate NPS
-                total_deduction = self.deductions['80CCD2']
+            if "80CCD(2)" in self.deductions.keys():  #new regime considers only 80CCD2/corporate NPS
+                total_deduction = self.deductions["80CCD(2)"]
         else:
             total_deduction = sum(self.deductions.values())  #old regime considers all deductions
         return max(0, self.income - total_deduction)
 
-    def _calculate_old_regime_tax(self, income):
+    def _calculate_old_regime_tax(self):
         gross_income = self.income
-        taxable_income = self._apply_deductions(gross_income) - 50000  #standard deduction of 50k
+        taxable_income = self._apply_deductions() - 50000  #standard deduction of 50k
         tax = 0
         slabs = [
             (250000, 0.0),
@@ -61,9 +62,9 @@ class IncomeTaxCalculator:
             "Total Tax Payable": round(total_tax)
         }
 
-    def _calculate_new_regime_tax(self, income):
+    def _calculate_new_regime_tax(self):
         gross_income = self.income
-        taxable_income = self._apply_deductions(gross_income) - 75000  #std deduction of 75k
+        taxable_income = self._apply_deductions() - 75000  #std deduction of 75k
         slabs = [
             (400000, 0.00),
             (800000, 0.05),
@@ -113,13 +114,10 @@ class IncomeTaxCalculator:
 
     def calculate(self):
         # New regime now has ₹75,000 standard deduction
-        if self.regime == 'new':
-            taxable_income = max(0, self._apply_deductions(self.income))
-        else:
-            taxable_income = self._apply_deductions(self.income)
+        print("Total Deductions: ", self.deductions)
         # Calculate tax based on regime
         if self.regime == 'old':
-            gross_tax = self._calculate_old_regime_tax(taxable_income)
+            gross_tax = self._calculate_old_regime_tax()
         else:
-            gross_tax = self._calculate_new_regime_tax(taxable_income)
+            gross_tax = self._calculate_new_regime_tax()
         return gross_tax
