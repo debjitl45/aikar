@@ -19,12 +19,6 @@ try:
 except Exception as e:
     print("Validation failed:", e)
 
-# income_tax = IncomeTaxCalculator(
-#     income=1200000,
-#     age=29,
-#     regime='oldnew',
-#     deductions={'80C': 150000, 'HRA': 180000, '80CCD2': 0, 'Home Loan': 0}
-# )
 
 try:
     income_tax = IncomeTaxCalculator(income=1279000, age=30,
